@@ -2,13 +2,20 @@
   <form>
     <div v-for="item in formItems" :key="item.id" class="input-group">
       <label :for="item.name">{{ item.name }}</label>
-      <input
-        :id="item.name"
-        v-model="item.value"
-        :value="item.value"
-        :type="item.type"
-        :class="{ 'error-color': item.isError }"
-      />
+      <span class="account-prefix">{{ item.prefix }}</span>
+      <input v-if="item.prefix"
+             :id="item.name" 
+             v-model="item.value" 
+             :value="item.value" 
+             :type="item.type" 
+             :class="{ 'error-color': item.isError || item.isBlank }"
+             class="setting-account-input" />
+      <input v-else
+             :id="item.name" 
+             v-model="item.value" 
+             :value="item.value" 
+             :type="item.type" 
+             :class="{ 'error-color': item.isError }" />
       <i class="limit-message" v-if="item.name === '名稱'"
         >{{ countNameLength }} / 50</i
       >
@@ -17,6 +24,12 @@
         class="account-alert-message"
       >
         帳號重覆
+      </div>
+      <div 
+        v-show="item.isBlank && item.name === '帳號'" 
+        class="account-alert-message"
+      >
+        帳號不可空白
       </div>
       <div
         v-show="item.isError && item.name === '名稱'"
@@ -87,17 +100,20 @@ form {
     font-size: 15px;
     color: var(--mute-color);
   }
+
   input[type="text"] {
     background: rgba(0, 0, 0, 0);
     border: none;
     outline: none;
   }
+
   input[type="password"] {
     background: rgba(0, 0, 0, 0);
     border: none;
     outline: none;
     color: var(--primary-text-color);
   }
+
   input {
     width: 100%;
     background-color: rgba(0, 0, 0, 0);
@@ -105,11 +121,17 @@ form {
     border-bottom: 2px solid var(--mute-color);
     background: transparent;
     color: var(--primary-text-color);
+
     // 當游標hover或focus時的顏色
     &:hover,
     &:focus {
       border-bottom: 2px solid var(--input-hover-focus-color);
     }
+  }
+
+  // 帳號input的樣式設定
+  > .setting-account-input {
+    padding-left: 1rem;
   }
 
   // 名稱字數的樣式設定
@@ -133,6 +155,13 @@ form {
     color: var(--alert-message-color);
     position: absolute;
     bottom: -50%;
+    left: 0;
+  }
+
+  // 帳號前方@的樣式設定
+  > .account-prefix {
+    position: absolute;
+    bottom: 0;
     left: 0;
   }
 }

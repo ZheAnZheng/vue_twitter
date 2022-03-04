@@ -41,6 +41,8 @@ export default {
           name: "帳號",
           value: "",
           isError: false,
+          isBlank: false,
+          prefix: "@",
         },
         {
           id: 1,
@@ -90,7 +92,7 @@ export default {
     setUser() {
         this.isAuthenticated = true;
 
-        this.formItems[0].value = "@" + this.currentUser.account;
+        this.formItems[0].value = this.currentUser.account;
         this.formItems[1].value = this.currentUser.name;
         this.formItems[2].value = this.currentUser.email;
     },
@@ -101,25 +103,16 @@ export default {
         const id = this.currentUser.id;
         const password = this.formItems[3].value;
         const passwordCheck = this.formItems[4].value;
-        const account = this.formItems[0].value
         const formData = new FormData();
 
-        // 防止使用者刪除@
-        if (account.includes('@') === false) {
-          toast.fireWarning('帳號開頭必需有"@"')
+        // 當帳號是空白的提示訊息
+        if (this.formItems[0].value.length < 1) {
+          this.formItems[0].isBlank = true
           return
-        } else if (account.length === 1) {
-          toast.fireWarning('帳號空白，請填寫帳號')
-          return
+        } else {
+          // 將提示訊息還原
+          this.formItems[0].isBlank = false
         }
-
-        formData.append("account", account.slice(1));
-        formData.append("name", this.formItems[1].value);
-        formData.append("email", this.formItems[2].value);
-        formData.append("password", this.formItems[3].value);
-        formData.append("introduction", this.currentUser.introduction);
-        formData.append("avatar", this.currentUser.avatar);
-        formData.append("cover", this.currentUser.cover);
 
         // 當密碼輸入不相同時
         if (password !== passwordCheck) {
@@ -132,7 +125,17 @@ export default {
           this.formItems[4].isError = false;
         }
 
+        // 當名稱字數超過50個時，無法送出表單
         if (this.formItems[1].value.length > 50) return;
+
+        // 將帳號/名稱/email/密碼/自我介紹/個人圖像/背景圖片放入formData中
+        formData.append("account", this.formItems[0].value);
+        formData.append("name", this.formItems[1].value);
+        formData.append("email", this.formItems[2].value);
+        formData.append("password", this.formItems[3].value);
+        formData.append("introduction", this.currentUser.introduction);
+        formData.append("avatar", this.currentUser.avatar);
+        formData.append("cover", this.currentUser.cover);
 
         // 向API傳送更新的資訊
         const { data } = await userAPI.update({
