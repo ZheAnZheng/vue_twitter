@@ -1,25 +1,29 @@
 # vue_twitter
 
 四人協作專案
+
 前端人員：[Nixon](https://github.com/ZheAnZheng) , [Ehton](https://github.com/ethon92)
+
 後端人員：[Louis](https://github.com/Phiphi0912) , [Richard Widjaya](https://github.com/ricwidjaya)
+
 [DEMO](https://zheanzheng.github.io/vue_twitter/#/signin)
 
 ## 畫面展示
-![signinPage]("./public/signinPage.png")
-![indexPage]("./public/indexPage.png")
-![postTweet]("./public/postTweet.png")
-![SettingPage]("./public/SettingPage.png")
-![ProfilePage]("./public/ProfilePage.png")
-![TweetStoryPage]("./public/TweetStoryPage.png")
-![theme]("./public/theme.png")
-![followListPage]("./public/followListPage.png")
-![adminUserPage]("./public/adminUserPage.png")
-![adminTweetPage]("./public/adminTweetPage.png")
-![rwd-indexPage]("./public/rwd-indexPage.png")
-![rwd-menu]("./public/rwd-menu.png")
-![rwd-profilePage]("./public/rwd-profilePage.png")
-![rwd-rwd-tweetStory]("./public/rwd-tweetStory.png")
+![signinPage](./public/signinPage.png)
+![indexPage](./public/indexPage.png)
+![postTweet](./public/postTweet.png)
+![SettingPage](./public/SettingPage.png)
+![ProfilePage](./public/ProfilePage.png)
+![TweetStoryPage](./public/TweetStoryPage.png)
+![theme](./public/theme.png)
+![followListPage](./public/followListPage.png)
+![adminUserPage](./public/adminUserPage.png)
+![adminTweetPage](./public/adminTweetPage.png)
+
+
+|![rwd-indexPage](./public/rwd-indexPage.png)|![rwd-menu](./public/rwd-menu.png)|
+|------|-------|
+|![rwd-profilePage](./public/rwd-profilePage.png)|![rwd-rwd-tweetStory](./public/rwd-tweetStory.png)|
 
 ## Feature
 可以使用預設帳號，也可以自行註冊使用
