@@ -1,20 +1,19 @@
 <template>
   <setting-layout>
-    <div class="setting-container">
+    <form class="setting-container" @submit.prevent.stop="updateUserInfo">
       <BaseInput
         class="setting-input"
         :form-items="formItems"
         @after-over-name-length="handleOverLength"
       />
       <BaseButton
-        @handleClick="updateUserInfo"
         class="setting-button"
         :position="'right'"
         :mode="'action'"
         :isDisabled="isProcessing"
         >儲存</BaseButton
       >
-    </div>
+    </form>
   </setting-layout>
 </template>
 
@@ -39,6 +38,7 @@ export default {
         {
           id: 0,
           name: "帳號",
+          inputName: "account",
           value: "",
           isError: false,
           isBlank: false,
@@ -47,18 +47,21 @@ export default {
         {
           id: 1,
           name: "名稱",
+          inputName: "name",
           value: "",
           isError: false,
         },
         {
           id: 2,
           name: "Email",
+          inputName: "email",
           value: "",
           isError: false,
         },
         {
           id: 3,
           name: "密碼",
+          inputName: "password",
           type: "password",
           value: "",
           isError: false,
@@ -67,6 +70,7 @@ export default {
         {
           id: 4,
           name: "密碼確認",
+          inputName: "passwordCheck",
           type: "password",
           value: "",
           isError: false,
@@ -97,45 +101,44 @@ export default {
         this.formItems[2].value = this.currentUser.email;
     },
     // 透過伺服器更新個人資訊的函式
-    async updateUserInfo() {
+    async updateUserInfo(e) {
       try {
         this.isProcessing = true;
         const id = this.currentUser.id;
-        const password = this.formItems[3].value;
-        const passwordCheck = this.formItems[4].value;
-        const formData = new FormData();
+        const account = this.formItems[0];
+        const name = this.formItems[1];
+        const email = this.formItems[2];
+        const password = this.formItems[3];
+        const passwordCheck = this.formItems[4];
+        // const formData = new FormData();
 
         // 當帳號是空白的提示訊息
-        if (this.formItems[0].value.length < 1) {
-          this.formItems[0].isBlank = true
+        if (account.value.length < 1) {
+          account.isBlank = true
           return
         } else {
           // 將提示訊息還原
-          this.formItems[0].isBlank = false
+          account.isBlank = false
         }
 
         // 當密碼輸入不相同時
-        if (password !== passwordCheck) {
-          this.formItems[3].isError = true;
-          this.formItems[4].isError = true;
+        if (password.value !== passwordCheck.value) {
+          password.isError = true;
+          passwordCheck.isError = true;
           return;
         } else {
           // 將提示訊息還原
-          this.formItems[3].isError = false;
-          this.formItems[4].isError = false;
+          password.isError = false;
+          passwordCheck.isError = false;
         }
 
         // 當名稱字數超過50個時，無法送出表單
-        if (this.formItems[1].value.length > 50) return;
+        if (name.value.length > 50) return;
 
-        // 將帳號/名稱/email/密碼/自我介紹/個人圖像/背景圖片放入formData中
-        formData.append("account", this.formItems[0].value);
-        formData.append("name", this.formItems[1].value);
-        formData.append("email", this.formItems[2].value);
-        formData.append("password", this.formItems[3].value);
+        // 將form放入formData中並加入introduction
+        const form = e.target
+        const formData = new FormData(form)
         formData.append("introduction", this.currentUser.introduction);
-        formData.append("avatar", this.currentUser.avatar);
-        formData.append("cover", this.currentUser.cover);
 
         // 向API傳送更新的資訊
         const { data } = await userAPI.update({
@@ -149,7 +152,7 @@ export default {
           data.message === "Account should be unique."
         ) {
           console.log(data.message);
-          this.formItems[0].isError = true;
+          account.isError = true;
           return;
         } else if (
           data.status === "error" &&
@@ -157,7 +160,7 @@ export default {
         ) {
           // 當email重覆時
           console.log(data.message);
-          this.formItems[2].isError = true;
+          email.isError = true;
           return;
         } else {
           // 更新成功時的訊息

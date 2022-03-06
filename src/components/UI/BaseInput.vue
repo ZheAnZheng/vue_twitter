@@ -1,5 +1,5 @@
 <template>
-  <form>
+  <div class="input-wrapper">
     <div v-for="item in formItems" :key="item.id" class="input-group">
       <label :for="item.name">{{ item.name }}</label>
       <span class="account-prefix">{{ item.prefix }}</span>
@@ -9,13 +9,15 @@
              :value="item.value" 
              :type="item.type" 
              :class="{ 'error-color': item.isError || item.isBlank }"
+             :name="item.inputName"
              class="setting-account-input" />
       <input v-else
              :id="item.name" 
              v-model="item.value" 
              :value="item.value" 
              :type="item.type" 
-             :class="{ 'error-color': item.isError }" />
+             :class="{ 'error-color': item.isError }" 
+             :name="item.inputName" />
       <i class="limit-message" v-if="item.name === '名稱'"
         >{{ countNameLength }} / 50</i
       >
@@ -52,7 +54,7 @@
         兩次密碼輸入不相同，請再次確認
       </div>
     </div>
-  </form>
+  </div>
 </template>
 
 <script>
@@ -80,7 +82,7 @@ export default {
 </script>
 
 <style lang="scss" scoped>
-form {
+.input-wrapper {
   width: 100%;
   flex: 2;
   margin-bottom: 40px;
