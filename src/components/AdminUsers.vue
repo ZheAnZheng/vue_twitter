@@ -40,8 +40,10 @@ export default {
             id: user.id,
             name: user.account,
             image: user.avatar,
-            backgroundImage: {
-              background: `no-repeat url('https://i.imgur.com/ju5wFt3.jpg')`,
+            backgroundImage: user.cover ? {
+              background: `no-repeat center url('${user.cover}')`,
+            } : {
+              background: `no-repeat center url('https://i.imgur.com/ju5wFt3.jpg')`,
             },
             tweetCount: user.tweetCount,
             likeCount: user.likedCount ? user.likedCount : 0,
