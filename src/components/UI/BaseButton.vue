@@ -3,6 +3,7 @@
     :class="[modeStyle, positionStyle, isDisabled ? 'disabled' : '']"
     @click="$emit('handleClick')"
     :disabled="isDisabled"
+    type="submit"
   >
     <slot></slot>
   </button>
