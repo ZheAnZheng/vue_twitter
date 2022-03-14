@@ -29,11 +29,6 @@ const routes = [
     component: () => import("../views/MainPage.vue"),
   },
   {
-    path: "/chatroom",
-    name: "public-chatroom",
-    component: () => import("../views/PublicRoom.vue"),
-  },
-  {
     path: "/setting",
     name: "setting",
     component: () => import("../views/SettingPage.vue"),
