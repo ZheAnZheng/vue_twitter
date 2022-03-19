@@ -110,7 +110,6 @@ export default {
         const email = this.formItems[2];
         const password = this.formItems[3];
         const passwordCheck = this.formItems[4];
-        // const formData = new FormData();
 
         // 當帳號是空白的提示訊息
         if (account.value.length < 1) {

@@ -80,6 +80,8 @@ export default {
 
         this.setCurrentUser(data.data.user);
 
+        toast.fireSuccess('成功登入')
+
         this.$router.replace("/admin/users");
       } catch (error) {
         console.log("Error", error);
